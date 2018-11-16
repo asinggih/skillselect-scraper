@@ -19,6 +19,10 @@ id
 2611  ICT Business and System Analysts                             75        28/05/2018 6:25pm
 2613  Software and Applications Programmers                        75        20/08/2018 3:13pm
 2631  Computer Network Professionals                               70        17/01/2018 11:36am
+
+
+The data in this table is licenced under a Creative Commons attribution 3.0 Australia licence,
+attributed to Australian Government Department of Home Affairs
 ```
 
 

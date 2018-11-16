@@ -94,6 +94,12 @@ def update_record(file, occ_table, invitation_date):
 
 	file.write(list_table.to_string(justify='center', formatters=make_pretty))
 
+	file.write("\n\n\n")
+
+	file.write("The data in this table is licenced under "
+		"a Creative Commons attribution 3.0 Australia licence,\n" 
+		"attributed to Australian Government Department of Home Affairs")
+
 	file.write("\n\n")
 
 
