@@ -1,10 +1,10 @@
 ## SkillSelect Latest Invitation Round Scraper
 
-My first attempt at using BeautifulSoup4 and Selenium to scrape a website. It's scraping the occupations and minimum points needed for [latest available invitation round of SkillSelect](https://immi.homeaffairs.gov.au/visas/working-in-australia/skillselect/invitation-rounds). 
+My first attempt at using BeautifulSoup4 and Selenium to scrape a website. It's scraping the occupations and minimum points needed for [latest available invitation round of SkillSelect](https://immi.homeaffairs.gov.au/visas/working-in-australia/skillselect/invitation-rounds).
 
-Running the program will create ```current_list.txt``` , which consists of the latest __invitation round date__ and details of the __pro rata occupations__. Everytime we execute ```./ss_scrape.py```, it will cross check the live site's date with the date inside ```current_list.txt```. If they're different, it will update the text file.
+Running the program will create `current_list.txt` , which consists of the latest **invitation round date** and details of the **pro rata occupations**. Everytime we execute `./ss_scrape.py`, it will cross check the live site's date with the date inside `current_list.txt`. If they're different, it will update the text file.
 
-##### Example Content of ```current_list.txt```
+##### Example Content of `current_list.txt`
 
 ```txt
 11 September 2018
@@ -25,7 +25,6 @@ The data in this table is licenced under a Creative Commons attribution 3.0 Aust
 attributed to Australian Government Department of Home Affairs
 ```
 
-
 ### How to Run The Script
 
 0. install chromedriver using your OS' package manager (e.g., brew)
@@ -35,8 +34,7 @@ attributed to Australian Government Department of Home Affairs
 4. `pip install -r requirements.txt`
 5. `./ss_scrape.py`
 
-
 ##### TODO
 
-- [ ] automatically send me an email if there's changes
-- [ ] add this script into crontab
+-   [ ] automatically send me an email if there's changes
+-   [ ] add this script into crontab
