@@ -4,12 +4,20 @@
 #
 #
 
+
 from bs4 import BeautifulSoup as bs
 from selenium import webdriver as wd
 from selenium.webdriver.chrome.options import Options
+
+from dotenv import load_dotenv, find_dotenv
+from pathlib import Path
+env_path = Path().absolute()/'.env'
+load_dotenv(dotenv_path=str(env_path.resolve())) 
+
 import re
 import sys
-
+import os
+import subprocess
 
 import pandas as pd
 pd.set_option('display.width', 1000)
@@ -81,7 +89,6 @@ def generate_table(occupation_list_table):
 
     return non_regional_list
 
-
 def update_record(file, occ_table, invitation_date):
     """
     Write latest table to file
@@ -113,29 +120,75 @@ def update_record(file, occ_table, invitation_date):
 
     file.write("\n\n")
 
+    return True
+
+def broken_script_warning(file, message_content):
+    """
+    Send a reminder to fix broken script
+    """
+
+    file.truncate(0)
+    file.write(message_content + "\n\n")
 
 if __name__ == '__main__':
 
-    invitation_date, occ_table = get_inv_date_and_table()
+    email = os.getenv("MY_EMAIL")
+        
+    filename =  str(Path('current_list.txt').absolute())
+    file_operation = 'r+'
+    if not os.path.exists(filename):
+        file_operation = 'w+'
 
-    try:  # if current_list.txt exist
-        with open('current_list.txt', 'r+') as record:
+    broken_content = "Fix the script" # message to send just in case script is broken
 
-            if record.readline().strip() == invitation_date.strip():
+    try: # check if we can pull invitation date and the correct table
+        invitation_date, occ_table = get_inv_date_and_table()
+        
+        new_record = False
+        with open(filename, file_operation) as record:
+            
+            error_mess = "record update error"
+
+            # check current record at hand
+            content_title = record.readline().strip()
+            
+            if content_title == broken_content.strip():
+                print("Fix the damn script - {}".format(error_mess))
+            elif content_title == invitation_date.strip():
                 print("No update")
-
+                print("Current invitation round is {}".format(invitation_date))
+            
             else:
                 # put pointer to the beginning of file before writing
                 record.seek(0)
+                new_record = True
                 try:
                     update_record(record, occ_table, invitation_date)
-
+                    subject = "Skillselect Update"
+                    
                 except Exception as e:
-                    print("Fix the script")
-                    sys.exit()
+                    broken_script_warning(record, broken_content)
+                    subject = "Fix Skillselect Script - {}".format(error_mess)
+                    print(subject)
+    
+    except Exception as e:
+        
+        with open(filename, file_operation) as record:
 
-    except Exception as e:  # if doesnt exist, create new file
-        with open('current_list.txt', 'w+') as record:
-            update_record(record, occ_table, invitation_date)
+            error_mess = "record pulling error"
 
-    print("Current invitation round is {}".format(invitation_date))
+            if record.readline().strip() == broken_content.strip():
+                print("Fix the damn script - {}".format(error_mess))
+            
+            else:
+                new_record = True
+                broken_script_warning(record, broken_content)
+                subject = "Fix Skillselect Script - {}".format(error_mess)
+                print(subject)
+
+    if new_record:
+        send_email_cmd = "(mutt -s '{}' {} < {})".format(subject, email, filename)
+        subprocess.call(send_email_cmd, shell=True)
+        print("Current invitation round is {}".format(invitation_date))
+
+    

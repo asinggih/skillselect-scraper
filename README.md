@@ -36,5 +36,6 @@ attributed to Australian Government Department of Home Affairs
 
 ##### TODO
 
--   [ ] automatically send me an email if there's changes
--   [ ] add this script into crontab
+-   [x] automatically send me an email if there's changes
+-   [x] add this script into crontab
+-   []  find better way to send email

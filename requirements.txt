@@ -9,6 +9,7 @@ numpy==1.18.4
 pandas==1.0.3
 pycodestyle==2.6.0
 python-dateutil==2.8.1
+python-dotenv==0.13.0
 pytz==2020.1
 selenium==3.141.0
 six==1.14.0
