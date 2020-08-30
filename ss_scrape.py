@@ -83,11 +83,11 @@ def generate_table(occupation_list_table):
                   'Minimum_Points', 'Date_of_Effect']
     df = df.set_index('id')
 
-    # subclass 189
-    subclass = 189
-    non_regional_list = df.loc[df['Subclass'] == subclass]
+    # Handling N/A values for the points and date of effect
+    df['Minimum_Points'] = df['Minimum_Points'].fillna("N/A")
+    df['Date_of_Effect'] = df['Date_of_Effect'].fillna("N/A")
 
-    return non_regional_list
+    return df
 
 def update_record(file, occ_table, invitation_date):
     """
